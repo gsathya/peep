@@ -313,6 +313,9 @@ def peep_install(argv):
         expected_hashes, missing_hashes = hashes_of_requirements(requirements)
         mismatches = list(hash_mismatches(expected_hashes, downloaded_hashes))
 
+        # remove satisfied_reqs from missing_hashes
+        missing_hashes = set(missing_hashes) - set([req.name for req in satisfied_reqs])
+
         # Skip a line after pip's "Cleaning up..." so the important stuff
         # stands out:
         if mismatches or missing_hashes:
